@@ -25,11 +25,11 @@ func (s *RegistryKVStore) Shutdown() {
 	s.store.Shutdown()
 }
 
-func (s *RegistryKVStore) Iterate(prefix kvstore.KeyPrefix, consumerFunc kvstore.IteratorKeyValueConsumerFunc) error {
+func (s *RegistryKVStore) Iterate(prefix kvstore.KeyPrefix, consumerFunc kvstore.IteratorKeyValueConsumerFunc, direction ...kvstore.IterDirection) error {
 	return s.store.Iterate(prefix, consumerFunc)
 }
 
-func (s *RegistryKVStore) IterateKeys(prefix kvstore.KeyPrefix, consumerFunc kvstore.IteratorKeyConsumerFunc) error {
+func (s *RegistryKVStore) IterateKeys(prefix kvstore.KeyPrefix, consumerFunc kvstore.IteratorKeyConsumerFunc, direction ...kvstore.IterDirection) error {
 	return s.store.IterateKeys(prefix, consumerFunc)
 }
 

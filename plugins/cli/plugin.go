@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"go.uber.org/dig"
 	"os"
 
 	"github.com/iotaledger/hive.go/events"
@@ -18,7 +19,7 @@ var printVersion bool
 func Init() *node.Plugin {
 	flag.BoolVarP(&printVersion, "version", "v", false, "Prints the Wasp version")
 
-	Plugin := node.NewPlugin(PluginName, node.Enabled)
+	Plugin := node.NewPlugin(PluginName, nil, node.Enabled)
 	Plugin.Events.Init.Attach(events.NewClosure(onInit))
 	return Plugin
 }
@@ -27,7 +28,7 @@ func onAddPlugin(name string, status int) {
 	AddPluginStatus(node.GetPluginIdentifier(name), status)
 }
 
-func onInit(*node.Plugin) {
+func onInit(*node.Plugin, *dig.Container) {
 	for name, plugin := range node.GetPlugins() {
 		onAddPlugin(name, plugin.Status)
 	}

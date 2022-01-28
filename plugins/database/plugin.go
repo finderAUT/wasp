@@ -19,7 +19,7 @@ var dbm *dbmanager.DBManager
 
 // Init is an entry point for the plugin.
 func Init() *node.Plugin {
-	return node.NewPlugin(pluginName, node.Enabled, configure, run)
+	return node.NewPlugin(pluginName, nil, node.Enabled, configure, run)
 }
 
 func configure(_ *node.Plugin) {

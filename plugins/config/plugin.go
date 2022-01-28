@@ -5,6 +5,7 @@ package config
 
 import (
 	"fmt"
+	"go.uber.org/dig"
 	"os"
 
 	"github.com/iotaledger/hive.go/configuration"
@@ -25,9 +26,9 @@ const (
 )
 
 func Init(conf *configuration.Configuration) *node.Plugin {
-	plugin := node.NewPlugin(PluginName, node.Enabled)
+	plugin := node.NewPlugin(PluginName, nil, node.Enabled)
 
-	plugin.Events.Init.Attach(events.NewClosure(func(*node.Plugin) {
+	plugin.Events.Init.Attach(events.NewClosure(func(*node.Plugin, *dig.Container) {
 		if skipConfigAvailable, err := fetch(conf, false); err != nil {
 			if !skipConfigAvailable {
 				// we wanted a config file but it was not present

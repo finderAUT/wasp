@@ -20,6 +20,6 @@ func Init() *node.Plugin {
 		// Nothing to run here
 	}
 
-	Plugin := node.NewPlugin(PluginName, node.Enabled, configure, run)
+	Plugin := node.NewPlugin(PluginName, nil, node.Enabled, configure, run)
 	return Plugin
 }

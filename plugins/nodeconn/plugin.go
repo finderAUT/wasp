@@ -28,7 +28,7 @@ var (
 
 // Init initializes the plugin
 func Init() *node.Plugin {
-	return node.NewPlugin(PluginName, node.Enabled, configure, run)
+	return node.NewPlugin(PluginName, nil, node.Enabled, configure, run)
 }
 
 func NodeConnection() *txstream.Client {

@@ -20,7 +20,7 @@ var log *logger.Logger
 
 // Init gets the plugin instance.
 func Init() *node.Plugin {
-	return node.NewPlugin(PluginName, node.Enabled, configure, run)
+	return node.NewPlugin(PluginName, nil, node.Enabled, configure, run)
 }
 
 func configure(_ *node.Plugin) {
