@@ -3,23 +3,10 @@
 
 [workspace]
 members = [
-    "corecontracts",
-    "dividend",
-    "donatewithfeedback",
-    "erc20",
-    "erc721",
-    "fairauction",
-    "fairroulette",
-    "helloworld",
-    "inccounter",
-    "schemacomment",
-    "testcore",
-    "testwasmlib",
-    "timestamp",
-    "tokenregistry",
     "gascalibration/memory",
     "gascalibration/storage",
     "gascalibration/executiontime",
+    "gascalibration/hash",
 ]
 
 [profile.release]

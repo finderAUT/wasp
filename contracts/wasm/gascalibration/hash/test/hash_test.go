@@ -5,10 +5,10 @@ package test
 
 import (
 	"flag"
+	"github.com/iotaledger/wasp/contracts/wasm/gascalibration"
+	"github.com/iotaledger/wasp/contracts/wasm/gascalibration/hash/go/hash"
 	"testing"
 
-	"github.com/iotaledger/wasp/contracts/wasm/gascalibration"
-	"github.com/iotaledger/wasp/contracts/wasm/gascalibration/memory/go/memory"
 	"github.com/iotaledger/wasp/packages/wasmvm/wasmlib/go/wasmlib"
 	"github.com/iotaledger/wasp/packages/wasmvm/wasmsolo"
 	"github.com/stretchr/testify/require"
@@ -16,21 +16,16 @@ import (
 
 var force = flag.Bool("force", false, "")
 
-func deployContract(t *testing.T) *wasmsolo.SoloContext {
-	ctx := wasmsolo.NewSoloContext(t, memory.ScName, memory.OnLoad)
-	require.NoError(t, ctx.Err)
-	return ctx
-}
-
 func TestCallF(t *testing.T) {
-	// running these tests should be intentional
-	//if !*force {
-	//	t.SkipNow()
-	//}
+	// running theses tests should be intentional
+	if !*force {
+		t.SkipNow()
+	}
 	wasmlib.ConnectHost(nil)
-	ctx := deployContract(t)
-	f := memory.ScFuncs.F(ctx)
+	ctx := wasmsolo.NewSoloContext(t, hash.ScName, hash.OnLoad)
+	require.NoError(t, ctx.Err)
 
+	f := hash.ScFuncs.F(ctx)
 	results := make(map[uint32]uint64)
 	for i := uint32(1); i <= 100; i++ {
 		n := i * 10
@@ -41,6 +36,7 @@ func TestCallF(t *testing.T) {
 		results[n] = ctx.Gas
 	}
 
+	// Log version of contract running
 	contractVersion := ""
 	if *wasmsolo.GoWasm {
 		contractVersion = "go"
@@ -49,10 +45,10 @@ func TestCallF(t *testing.T) {
 	} else if *wasmsolo.RsWasm {
 		contractVersion = "rs"
 	}
-	t.Logf("Running %s version of contract", contractVersion)
+	t.Logf("Running %s version of %s", contractVersion, t.Name())
 
-	//filePath := "../pkg/memory_" + contractVersion + ".json"
+	//filePath := "../pkg/hash" + contractVersion + ".json"
 	//gascalibration.SaveTestResultAsJSON(filePath, results)
-	filePath := "../pkg/memory_" + contractVersion + ".csv"
+	filePath := "../pkg/hash_" + contractVersion + ".csv"
 	gascalibration.SaveTestResultAsCSV(filePath, results)
 }
